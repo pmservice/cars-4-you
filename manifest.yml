@@ -1,0 +1,5 @@
+applications:
+- path: .
+  memory: 256M
+  name: car-rental-sample-app
+  random-route: true
