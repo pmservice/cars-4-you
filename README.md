@@ -40,7 +40,8 @@ User also should have account on Bluemix with active us-south region. In us-sout
 Run:
 ```bash
 pip install -r requirements.txt
-python server.py
+export FLASK_APP=server.py
+flask run
 ```
 
 Application will be available at `127.0.0.1:8080`.
