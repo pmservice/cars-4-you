@@ -1,9 +1,6 @@
 # Car Rental Sample Application
-TODO update
 
-Merge the power of Watson Machine Learning with an image of your choice to see transfer of styles.
-
-<img src="https://github.com/pmservice/style-transfer/raw/master/static/images/screen.jpg" width="500" />
+TODO
 
 ## Requirements:
 - python 3
@@ -31,7 +28,7 @@ User also should have account on Bluemix with active us-south region. In us-sout
 
 1. Clone repository and enter cloned project directory:
    ```bash
-   git clone https://github.com/pmservice/style-transfer.git
+   git clone https://github.com/pmservice/car_rental.git
    cd style-transfer
    ```
 2. Update with your services credentials the folowing files:
