@@ -1,6 +1,7 @@
 from flask import Flask, send_from_directory, request
 from wml_helper import WMLHelper
 from get_vcap import get_wml_vcap, get_cos_vcap
+import os
 
 app = Flask(__name__, static_url_path='/static')
 
@@ -40,3 +41,7 @@ def process_comment():
     # TODO do some model magic
 
     return 'Oh dear... We don\'t know what to say to \'' + comment + '\'!'
+
+port = os.getenv('PORT', '5000')
+if __name__ == "__main__":
+        app.run(host='0.0.0.0', port=int(port))

@@ -1,25 +1,110 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<title>Car Rental sample app</title>
+	<meta charset="utf-8">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
+	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+	<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> -->
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+
 	<link rel="stylesheet" href="stylesheets/style.css" />
 </head>
-<body class="container">
-	<h1>Car Rental Service</h1>
-	<p>You rented Fiat 126p from us between 15-05-2018 and 17-05-2018.</p>
-	<p>Feedback:
-		<div id="userFeedback">
-			<textarea id="feedback" rows="4" cols="50"></textarea>
-			<button type="button" onclick="send_comment()">Comment</button>
+
+<body class="container-fluid">
+	<h1>
+		<div class="row">
+			<div class="col">
+				<img src="staticImages/top_banner.png" class="img-fluid">
+				<img src="staticImages/menu_banner.png" class="img-fluid">
+				<img src="staticImages/path_banner.png" class="img-fluid">
+			</div>
 		</div>
-		<p id="serviceAnswer">
-		</p>
+
+	</h1>
+	<p>
+		<div class="row">
+			<div class="col">
+				<img src="staticImages/input_mock.png" class="img-fluid">
+			</div>
+		</div>
 	</p>
+
+	<div style="margin-left: 2%;  width: 50%">
+
+		<!-- <div class="row" style="margin-bottom: 20px">
+			<img id="very_sad" src="staticImages/very_sad.svg" onclick="change_image(this)" class="img-fluid" style="width: 8%; margin-left: 2%; margin-right: 3%">
+			<img id="very_happy" src="staticImages/very_happy.svg" onclick="change_image(this)" class="img-fluid" style="width: 8%">
+
+		</div> -->
+
+		<div id="question">
+			<div class="row" style="margin-bottom: 20px">
+				<img id="very_sad" src="staticImages/very_sad.svg" onclick="change_image(this)" class="img-fluid" style="width: 8%; margin-left: 2%; margin-right: 3%">
+				<img id="very_happy" src="staticImages/very_happy.svg" onclick="change_image(this)" class="img-fluid" style="width: 8%">
+
+			</div>
+
+			<p style="font-size: 30px; margin-bottom: 5px">Comments</p>
+			<div id="userFeedback">
+				<textarea id="feedback" rows="4" placeholder="Enter your comments." style="width: 100%; resize: none;"></textarea>
+				<div style="text-align: right; margin-top: 15px; margin-right: 5px">
+					<button id="send_button" type="button" onclick="send_comment()" style="border: none; color: #fdffff" disabled>Send</button>
+				</div>
+			</div>
+
+			<!-- <p id="serviceAnswer"></p> -->
+
+
+		</div>
+		<div id="response" style="display: none;">
+			<hr>
+			<div class="row">
+				<div class="col-sm-1">
+					<img id="response_face" src="staticImages/very_sad.svg" class="img-fluid">
+				</div>
+				<div class="col-sm-11">
+					<p id="user_comment"></p>
+				</div>
+			</div>
+			<hr>
+			<div class="row">
+				<div class="col-sm-1">
+					<img src="staticImages/quote_icon.png" class="img-fluid">
+				</div>
+				<div class="col-sm-11">
+					<p id="feedback_title">
+						<b>Thank you for your feedback.</b>
+					</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-1">
+				</div>
+				<div class="col-sm-11">
+					<p id="feedback_comment"></p>
+				</div>
+			</div>
+			<hr>
+			<div id="coupon" class="row" style="margin-left: 1%; display: block">
+				<img src="staticImages/coupon.png" class="img-fluid">
+			</div>
+
+		</div>
+	</div>
+
+	<footer style="margin-top: 100px">
+		<img src="staticImages/footer.png" alt="">
+	</footer>
+
 	<script src="scripts/automatic_answer.js"></script>
 </body>
+
 </html>

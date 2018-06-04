@@ -1,8 +1,6 @@
 applications:
 - path: .
-  memory: 256M
+  memory: 128M
   instances: 1
-  domain: mybluemix.net
-  name: car-rental-sample-app
-  host: car-rental-sample-app
-  disk_quota: 1024M
+  name: car-rental-sample-app-90
+  random-route: true
