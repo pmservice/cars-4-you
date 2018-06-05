@@ -9,7 +9,7 @@ function send_comment() {
     
     document.getElementById("user_comment").innerHTML = comment;
 
-    if(selectedFace.id == "very_sad"){
+    if(selectedFace.id == "sad"){
         document.getElementById("feedback_comment").innerHTML = "We’re sorry that you were unhappy with your experience with Cars4U. We will open a case to investigate the issue. In the meantime, we’d like to offer you a coupon for a free upgrade on your next rental with us.";
     }
     else {
@@ -22,6 +22,29 @@ function send_comment() {
     document.getElementById("question").style.display = "none";
     document.getElementById("response").style.display = "block";
 
+    // $.ajax({
+    //     method: "post",
+    //     contentType: "application/json; charset=utf-8",
+    //     url: "/analyze",
+    //     data: JSON.stringify({ "Ala ma kota": "bezwzglednie" }),
+    //     success: function(data) { 
+    //         console.log("Response: ");
+    //         console.log(data);
+    //     },
+    //     failure: function(data) { 
+    //         console.log("Error Response: ");
+    //         console.log(data);
+    //     },
+    //     dataType: "json"
+    // });
+    // $.post(
+    //     "/analyze",
+    //     {"comment": comment},
+    //     function(data) {
+    //         console.log(data)
+    //         // $("#serviceAnswer").html('Car_Rental: ' + data);
+    //     }
+    // );
 
     $.post(
         "/comments",

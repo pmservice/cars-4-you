@@ -42,6 +42,13 @@ def process_comment():
 
     return 'Oh dear... We don\'t know what to say to \'' + comment + '\'!'
 
+@app.route('/analyze', methods=['POST'])
+def analyze():
+    comment = request.get_json()
+    print(comment)
+    print(comment['comment'])
+    return 'Ale tego kota nie ma'
+
 port = os.getenv('PORT', '5000')
 if __name__ == "__main__":
         app.run(host='0.0.0.0', port=int(port))
