@@ -25,7 +25,7 @@ def get_vcap(local_name, bx_name):
 
 
 def get_wml_vcap():
-    return get_vcap('wml', 'pm-20')
+    return get_vcap('wml-fvt', 'pm-20')
 
 
 def get_cos_vcap():

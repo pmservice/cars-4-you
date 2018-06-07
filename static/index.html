@@ -6,9 +6,6 @@
 	<meta charset="utf-8">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
-	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
-	<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> -->
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -19,41 +16,38 @@
 </head>
 
 <body class="container-fluid">
-	<div class="topnav2">
-		<img src="staticImages/logo.png" class="img-fluid" style="height: 60px; padding: 10px 10px; margin-left: 30px">
+	<div class="topnavdark">
+		<img id="logoimg" src="staticImages/logo.svg" class="img-fluid">
+		<input style="float: right;" type="image" src="staticImages/avatar.svg" />
 
-		<div style="float: right; margin-right: 15px;">
-			<a>Custommer support</a>
-			<a>USD</a>
-			<button>Log out</button>
-		</div>
-
+		<a style="float: right;">
+			<img src="staticImages/globe.svg" alt=""> USD
+		</a>
+		<a style="float: right;">Custommer support</a>
 	</div>
 
-	<div class="topnav">
+	<div class="topnavgreen">
 		<a>Reservations</a>
 		<a>Locations</a>
 		<a>Car Sales</a>
 		<a>Offers</a>
 	</div>
 
-	<div class="topnav3">
-		<a>Customer Service / Comments & Feedback / Your Feedback</a>
+	<div class="topnavpath">
+		<a>Customer Service / Comments & Feedback /
+			<a id="topnavpathtext">Your Feedback</a>
+		</a>
 	</div>
 
-	<div style="padding: 15px 30px; ">
-		<p style="font-size: 40px; font-weight: bold; padding: 0px 0px;">We value your feedback!</p>
-		<p style="font-size: 30px; padding: 0px 0px; margin-top: -20px">Let us know how we’re doing. Your opinion is important to us.</p>
-	</div>
+	<div class="containerbox">
+		<p class="header1">We value your feedback!</p>
+		<p class="header2">Let us know how we’re doing. Your opinion is important to us.</p>
 
-	<div style="margin-left: 30px; margin-right: 40px;">
-		<div style="padding: 10px 25px; background-color: #f9f9f9;">
-			<a>
-				<b>RECENT CAR USAGE</b>
-			</a>
+		<div class="containerrecent">
+			<a style="font-weight: bold"> RECENT CAR USAGE</a>
 			<a style="float: right; color: #27bcc2; font-size: 18px; font-weight: bold">Questions?</a>
 		</div>
-		<div class="inputtable">
+		<div class="containertable">
 			<table style="width: 100%">
 				<tr>
 					<td>Pickup Date:</td>
@@ -71,71 +65,36 @@
 				</tr>
 			</table>
 		</div>
-	</div>
-
-	<div style="padding: 25px 30px; ">
-		<p style="font-size: 30px; padding: 0px 0px;">Your feedback</p>
-		<p style="font-size: 20px; padding: 0px 0px; margin-top: -10px">How would you rate your rental experience with Cars4U?</p>
-	</div>
-
-	<div style="padding: 0px 30px;  width: 50%">
+		<p class="header2">Your feedback</p>
+		<p class="header3">How would you rate your rental experience with Cars4U?</p>
 
 		<div id="question">
-			<div class="row" style="padding: 0px 0px 30px 30px ">
-				<img id="sad" src="staticImages/sad.svg" onclick="change_image(this)" class="img-fluid" style="height: 60px; padding-right: 50px">
-				<img id="happy" src="staticImages/happy.svg" onclick="change_image(this)" class="img-fluid" style="height: 60px;">
+			<img id="sad" src="staticImages/sad.svg" onclick="change_image(this)" class="img-fluid faceimg">
+			<img id="happy" src="staticImages/happy.svg" onclick="change_image(this)" class="img-fluid faceimg">
+
+			<p class="header2">Comments</p>
+			<div id="userFeedback" style="width: 50%">
+				<textarea id="feedback" rows="4" placeholder="Enter your comments."></textarea>
+				<button id="send_button" type="button" onclick="send_comment()" disabled>Send</button>
 			</div>
-
-			<p style="font-size: 30px; margin-bottom: 5px">Comments</p>
-			<div id="userFeedback">
-				<textarea id="feedback" rows="4" placeholder="Enter your comments." style="width: 100%; resize: none;"></textarea>
-				<div style="text-align: right; margin-top: 20px; margin-right: 0px">
-					<button id="send_button" type="button" onclick="send_comment()" style="border: none; color: #fdffff; width: 100px; height: 40px;" disabled>Send</button>
-				</div>
-			</div>
-
-			<!-- <p id="serviceAnswer"></p> -->
-
-
 		</div>
-		<div id="response" style="display: none;">
+		<div id="response">
 			<hr>
-			<div class="row">
-				<div class="col-sm-1">
-					<img id="response_face" src="staticImages/very_sad.svg" class="img-fluid">
-				</div>
-				<div class="col-sm-11">
-					<p id="user_comment"></p>
-				</div>
-			</div>
+			<img id="response_face" src="staticImages/very_sad.svg" class="img-fluid responseicon">
+			<a id="user_comment">ala nie ma kota</a>
 			<hr>
-			<div class="row">
-				<div class="col-sm-1">
-					<img src="staticImages/quote_icon.png" class="img-fluid">
-				</div>
-				<div class="col-sm-11">
-					<p id="feedback_title">
-						<b>Thank you for your feedback.</b>
-					</p>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-1">
-				</div>
-				<div class="col-sm-11">
-					<p id="feedback_comment"></p>
-				</div>
-			</div>
+			<img src="staticImages/quote_icon.png" class="img-fluid responseicon">
+			<a id="feedback_title">Thank you for your feedback.</a>
+			<p id="feedback_comment">masz kupon i uciekaj!</p>
 			<hr>
-			<div id="coupon" class="row" style="margin-left: 1%; display: block">
-				<img src="staticImages/coupon.png" class="img-fluid">
-			</div>
-
+			<img id="coupon" src="staticImages/coupon.png" class="img-fluid">
 		</div>
 	</div>
 
-	<footer style="margin-top: 70px">
-		<img src="staticImages/footer.png" class="img-fluid">
+	<footer>
+		<a>2018 CARS4U LLC</a>
+		<a class="footerright" style="color: #00bcc3">Privacy Policy</a>
+		<a class="footerright" style="color: #00bcc3">Terms of Use</a>
 	</footer>
 
 	<script src="scripts/automatic_answer.js"></script>

@@ -1,4 +1,4 @@
-from flask import Flask, send_from_directory, request
+from flask import Flask, send_from_directory, request, jsonify
 from wml_helper import WMLHelper
 from get_vcap import get_wml_vcap, get_cos_vcap
 import os
@@ -44,10 +44,8 @@ def process_comment():
 
 @app.route('/analyze', methods=['POST'])
 def analyze():
-    comment = request.get_json()
-    print(comment)
-    print(comment['comment'])
-    return 'Ale tego kota nie ma'
+    comment = request.get_json(force=True)
+    return jsonify(wml_client.score_model(comment))
 
 port = os.getenv('PORT', '5000')
 if __name__ == "__main__":
