@@ -3,15 +3,13 @@ var selectedFace = null
 function send_comment() {
     var comment = $("#feedback").val();
     document.getElementById("user_comment").innerHTML = comment;
-
-    // if(selectedFace.id == "sad"){
-    //     document.getElementById("feedback_comment").innerHTML = "We’re sorry that you were unhappy with your experience with Cars4U. We will open a case to investigate the issue. In the meantime, we’d like to offer you a coupon for a free upgrade on your next rental with us.";
-    //     document.getElementById("coupon").style.display = "block";
-    // }
-    // else {
-    //     document.getElementById("feedback_comment").innerHTML = "Thank you for positive feedback!";
-
-    // }    
+    var satisfaction = 0;
+    if(selectedFace.id == "sad"){
+        satisfaction = 0;
+    }
+    else {
+        satisfaction = 1;
+    }    
 
     $.ajax({
         method: "POST",
@@ -24,13 +22,14 @@ function send_comment() {
             "childrens": "2",
             "age": "30",
             "customer": "Active",
-            "owner": "No"
+            "owner": "No",
+            "satisfaction" : satisfaction
         }),
         success: function (data) {
             console.log("Response: ");
             console.log(data);
 
-            document.getElementById("feedback_comment").innerHTML = data['area'] + "<br>Action: " + data['action'];
+            document.getElementById("feedback_comment").innerHTML = data['client_response'];
 
             if(data['action'] == "Voucher"){
                 document.getElementById("coupon").style.display = "block";
