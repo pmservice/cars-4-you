@@ -70,12 +70,13 @@
 
 		<div id="question">
 			<img id="sad" src="staticImages/sad.svg" onclick="change_image(this)" class="img-fluid faceimg">
+			<img id="neutral" src="staticImages/neutral.svg" onclick="change_image(this)" class="img-fluid faceimg">
 			<img id="happy" src="staticImages/happy.svg" onclick="change_image(this)" class="img-fluid faceimg">
 
 			<p class="header2">Comments</p>
 			<div id="userFeedback" style="width: 50%">
 				<textarea id="feedback" rows="4" placeholder="Enter your comments."></textarea>
-				<button id="send_button" type="button" onclick="send_comment()" disabled>Send</button>
+				<button id="send_button" type="button" onclick="send_comment()" enabled>Send</button>
 			</div>
 		</div>
 		<div id="response">

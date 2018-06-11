@@ -19,7 +19,8 @@ class WMLHelper:
                                    "We appreciate your positive review about your recent experience with us!"]
 
     def score_model(self, request):
-        scoring_url = "https://wml-fvt.stage1.machine-learning.ibm.com/v3/wml_instances/e63a814d-2e81-4e2f-a933-25582806958b/published_models/8b2c1349-33ca-4cc8-bb42-68b3ef817930/deployments/906bc7cb-9dc4-4733-9d60-011f4f082d3a/online"
+        # scoring_url = "https://wml-fvt.stage1.machine-learning.ibm.com/v3/wml_instances/e63a814d-2e81-4e2f-a933-25582806958b/published_models/8b2c1349-33ca-4cc8-bb42-68b3ef817930/deployments/906bc7cb-9dc4-4733-9d60-011f4f082d3a/online"
+        scoring_url = "https://wml-fvt.stage1.machine-learning.ibm.com/v3/wml_instances/b1875b6a-9af3-4f77-9002-da52ca0a9610/published_models/d2154fbc-03ef-4920-85ce-6c6c9e40c547/deployments/6c4a0c31-5ecc-49d2-aa8e-2535af3271f4/online"
 
         gender = request['gender']
         status = request['status']

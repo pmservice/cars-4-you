@@ -4,11 +4,33 @@ function send_comment() {
     var comment = $("#feedback").val();
     document.getElementById("user_comment").innerHTML = comment;
     var satisfaction = 0;
-    if(selectedFace.id == "sad"){
+    var facePath = "";
+
+    if(selectedFace == null){
+        $.post(
+            "/analyzesent",
+            comment,
+            function (data) {
+                console.log(data)
+                if(data == 'neutral'){
+                    facePath = "staticImages/selected_neutral.svg"
+                }
+                else if (data == 'positive'){
+                    facePath = "staticImages/selected_happy.svg"
+                }
+                else if (data == 'negative'){
+                    facePath = "staticImages/selected_sad.svg"
+                }
+            }
+        );
+    }
+    else if(selectedFace.id == "sad"){
         satisfaction = 0;
+        facePath = selectedFace.src;
     }
     else {
         satisfaction = 1;
+        facePath = selectedFace.src;
     }    
 
     $.ajax({
@@ -35,7 +57,7 @@ function send_comment() {
                 document.getElementById("coupon").style.display = "block";
             }
 
-            document.getElementById("response_face").src = selectedFace.src;
+            document.getElementById("response_face").src = facePath;
 
             document.getElementById("question").style.display = "none";
             document.getElementById("response").style.display = "block";
@@ -51,14 +73,7 @@ function send_comment() {
         dataType: "json"
     });
 
-    $.post(
-        "/comments",
-        comment,
-        function (data) {
-            console.log(data)
-            // $("#serviceAnswer").html('Car_Rental: ' + data);
-        }
-    );
+    
 }
 
 
