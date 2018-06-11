@@ -13,7 +13,7 @@ function send_comment() {
             function (data) {
                 console.log(data)
                 if(data == 'neutral'){
-                    facePath = "staticImages/selected_neutral.svg"
+                    facePath = "staticImages/selected_happy.svg"
                 }
                 else if (data == 'positive'){
                     facePath = "staticImages/selected_happy.svg"
@@ -53,9 +53,9 @@ function send_comment() {
 
             document.getElementById("feedback_comment").innerHTML = data['client_response'];
 
-            if(data['action'] == "Voucher"){
-                document.getElementById("coupon").style.display = "block";
-            }
+            // if(data['action'] == "Voucher"){
+            //     document.getElementById("coupon").style.display = "block";
+            // }
 
             document.getElementById("response_face").src = facePath;
 

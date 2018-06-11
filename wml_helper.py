@@ -9,10 +9,10 @@ class WMLHelper:
         self.service_endpoint = service_endpoint
         self.instance_id = wml_vcap["instance_id"]
 
-        self.negative_templates = ["We’re sorry that you were unhappy with your experience with Cars4U. We will open a case to investigate the issue with {} {}. In the meantime, we’d like to offer you a coupon for a {} on your next rental with us.",
-                                   "We're very sorry for the trouble you experienced with Cars4U. We will open a case to investigate the issue with {} {}. In the meantime, we’d like to offer you a coupon for a {} on your next rental with us.",
-                                   "We sincerely apologize for this experience with Cars4U. We will open a case to investigate the issue with {} {}. In the meantime, we’d like to offer you a coupon for a {} on your next rental with us.",
-                                   "I am very disappointed to hear about your experience with Cars4U. We will open a case to investigate the issue with {} {}. In the meantime, we’d like to offer you a coupon for a {} on your next rental with us."]
+        self.negative_templates = ["We’re sorry that you were unhappy with your experience with Cars4U. We will open a case to investigate the issue with {} {}. In the meantime, we’d like to offer you a {} on your next rental with us.",
+                                   "We're very sorry for the trouble you experienced with Cars4U. We will open a case to investigate the issue with {} {}. In the meantime, we’d like to offer you a {} on your next rental with us.",
+                                   "We sincerely apologize for this experience with Cars4U. We will open a case to investigate the issue with {} {}. In the meantime, we’d like to offer you a {} on your next rental with us.",
+                                   "I am very disappointed to hear about your experience with Cars4U. We will open a case to investigate the issue with {} {}. In the meantime, we’d like to offer you a {} on your next rental with us."]
 
         self.positive_templates = ["We are very happy to have provided you with such a positive experience!",
                                    "We are glad to hear you had such a great experience! ",

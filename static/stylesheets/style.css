@@ -125,6 +125,7 @@ body, html {
 
 .responseicon {
     height: 50px;
+    position: absolute;
 }
 
 #question {
@@ -137,7 +138,7 @@ body, html {
 }
 
 #user_comment, #feedback_title {
-    padding: 0px 0px 0px 20px;
+    padding: 0px 0px 0px 75px;
 }
 
 #feedback_title {
