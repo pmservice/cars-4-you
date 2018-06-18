@@ -16,9 +16,81 @@
 </head>
 
 <body class="container-fluid">
+
+	<ul id="sidebar" style="display: none; ">
+		<li style="font-size: 15px;">
+			<img src="staticImages/avatar.svg" alt="" style="height: 45px; margin-top: 20px">
+			<a id="cust-name" style="font-size: 18px; margin-left: 10px; margin-top: 50px">John Smith</a>
+		</li>
+		<hr>
+		<li>
+			<a>First Name</a>
+		</li>
+		<li>
+			<input id="first-name-input" class="sidebar-text" type="text" size="15" value="John">
+		</li>
+		<li>
+			<a>Last Name</a>
+		</li>
+		<li>
+			<input id="last-name-input" class="sidebar-text" type="text" size="15" value="Smith">
+		</li>
+		<li>
+			<a>Gender</a>
+		</li>
+		<li>
+			<select name="" id="gender-input">
+				<option value="Female">Female</option>
+				<option value="Male">Male</option>
+			</select>
+		</li>
+		<li>
+			<a>Age</a>
+		</li>
+		<li>
+			<input id="age-input" class="sidebar-number" type="tel" min="1" max="100" maxlength="3" value="36" size="5">
+		</li>
+		<li>
+			<a>Status</a>
+		</li>
+		<li>
+			<select name="" id="status-input">
+				<option value="S">Single</option>
+				<option value="M">Married</option>
+			</select>
+		</li>
+		<li>
+			<a>Children</a>
+		</li>
+		<li>
+			<input id="children-input" class="sidebar-number" type="tel" maxlength="2" size="15" value="2">
+		</li>
+		<li>
+			<a>Car owner</a>
+		</li>
+		<li>
+			<select name="" id="owner-input">
+				<option value="Yes">Yes</option>
+				<option value="No">No</option>
+			</select>
+		</li>
+		<li>
+			<a>Active</a>
+		</li>
+		<li>
+			<select name="" id="active-input">
+				<option value="Active">Active</option>
+				<option value="Inactive">Inactive</option>
+			</select>
+		</li>
+		<hr style="margin-top: 20px;">
+		<button id="sidebar-save">Save</button>
+		<button id="sidebar-cancel">Cancel</button>
+	</ul>
+
 	<div class="topnavdark">
 		<img id="logoimg" src="staticImages/logo.svg" class="img-fluid">
-		<input style="float: right;" type="image" src="staticImages/avatar.svg" />
+		<input id="avatar-button" style="float: right; outline: none" type="image" src="staticImages/avatar.svg" />
 
 		<a style="float: right;">
 			<img src="staticImages/globe.svg" alt=""> USD
@@ -53,7 +125,7 @@
 					<td>Pickup Date:</td>
 					<td class="value">06/08/2018</td>
 					<td>Vehicle:</td>
-					<td class="value">Fiat Panda</td>
+					<td class="value">Toyota Corolla</td>
 					<td>Location:</td>
 					<td class="value">Austin Bergstrom International Airport</td>
 				</tr>
@@ -61,7 +133,7 @@
 					<td>Return Date:</td>
 					<td class="value">06/10/2018</td>
 					<td>Payment:</td>
-					<td class="value">436.69 USD</td>
+					<td class="value">256.69 USD</td>
 				</tr>
 			</table>
 		</div>
@@ -69,30 +141,33 @@
 		<p class="header3">How would you rate your rental experience with Cars4U?</p>
 
 		<div id="question">
-			<img id="sad" src="staticImages/sad.svg" onclick="change_image(this)" class="img-fluid faceimg">
-			<img id="happy" src="staticImages/happy.svg" onclick="change_image(this)" class="img-fluid faceimg">
+			<img id="sad" src="staticImages/thumb_down_notselected.svg" class="img-fluid faceimg">
+			<img id="happy" src="staticImages/thumb_up_notselected.svg" class="img-fluid faceimg">
 
 			<p class="header2">Comments</p>
-			<div id="userFeedback" style="width: 50%">
-				<textarea id="feedback" rows="4" placeholder="Enter your comments."></textarea>
-				<button id="send_button" type="button" onclick="send_comment()" enabled>Send</button>
+			<div id="user-feedback" style="width: 50%">
+				<textarea id="user-text" rows="4" placeholder="Enter your comments."></textarea>
+				<button id="send-button" type="button" onclick="send_comment()">Send</button>
 			</div>
 		</div>
 		<div id="response">
 			<hr>
-			<img id="response_face" src="staticImages/sad.svg" class="img-fluid responseicon">
-			<div id="user_comment">
-				<a >Terrible experience before even picking up car. Been trying to talk to a representative at the location for almost an hour now and all I ever get is the answering machine or a call center person that is not able to help me</a>
+			<img id="response-face" src="staticImages/sad.svg" class="img-fluid response-icon-face">
+			<div id="user-comment">
+				<a></a>
 			</div>
-			<hr>
-			<img src="staticImages/quote_icon.png" class="img-fluid responseicon">
-			<a id="feedback_title">Thank you for your feedback.</a>
-			<p id="feedback_comment">masz kupon i uciekaj!</p>
+			<hr style="margin-top: 30px">
+			<img src="staticImages/quote.svg" class="img-fluid response-icon-quote">
+			<a id="feedback-title">Thank you for your feedback.</a>
+			<p id="feedback-comment"></p>
 			<hr>
 			<img id="coupon" src="staticImages/coupon.png" class="img-fluid">
 		</div>
+		<div id="error-message">
+			Cannot update non existing deployment
+		</div>
 	</div>
-
+	
 	<footer>
 		<a>2018 CARS4U LLC</a>
 		<a class="footerright" style="color: #00bcc3">Privacy Policy</a>

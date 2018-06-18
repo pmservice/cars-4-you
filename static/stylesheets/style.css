@@ -14,6 +14,8 @@ body, html {
 
 .topnavdark {
     background-color: #0F355B;
+    position: fixed;
+    width: 100%;
 }
 
 .topnavdark a{
@@ -51,7 +53,7 @@ body, html {
     float: left;
     color: #ffffff; 
     text-align: center;
-    padding: 15px 20px 15px 40px;
+    padding: 75px 20px 15px 40px;
     text-decoration: none;
     font-size: 26px;
 }
@@ -76,13 +78,103 @@ body, html {
     float: left;
     color: #5A6872; 
     text-align: center;
-    padding: 5px 0px 5px 5px;
+    padding: 5px 0px 0px 5px;
     text-decoration: none;
     font-size: 18px;
 }
 
+#avatar-button{
+    float: right;
+    outline: none;
+}
+
+
+#sidebar {
+    list-style-type: none;
+    position: fixed;
+    right: 0px;
+    top: 65px;
+    bottom: 80px;
+    background-color: #f9f9f9;
+    width: 300px;
+    color: #0F355B;
+}
+
+#sidebar a {
+    font-weight: bold;
+}
+
+#sidebar li{
+    margin-left: -20px;
+    width: 100%;
+}
+
+#sidebar hr {
+    margin-left: -30px;
+    margin-right: 10px;
+    padding-top: 5px;
+}
+
+#sidebar input {
+    margin-bottom: 10px;
+}
+
+#sidebar select {
+    margin-bottom: 10px;
+    border: none;
+    background: transparent;
+
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    display: block;
+    width: 120px;
+    text-align: left;
+
+    background-image: url("select_arrow.png");
+    background-size: 40px 35px;
+    background-position: right center;
+    
+
+    background-repeat: no-repeat; 
+}
+
+#sidebar select:focus {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.sidebar-text, .sidebar-number {
+    background: transparent; 
+    border:none; 
+    border-bottom: 1px solid #bcc4cb; 
+}
+
+.sidebar-number {
+    width: 30%;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+#sidebar-cancel, #sidebar-save {
+    float: right;
+    margin-right: 20px;
+    width: 70px;
+    border: none;
+}
+#sidebar-cancel {
+    color: #15BCC3; 
+    background-color: transparent;
+}
+
+#sidebar-save {
+    color: #f9f9f9;
+    background-color: #15BCC3;
+}
+
 .containerbox {
-    padding: 15px 30px;
+    padding: 5px 30px;
 }
 
 .header1, .header2, .header3{
@@ -108,7 +200,7 @@ body, html {
     margin: 20px 0px;
 }
 
-#send_button {
+#send-button {
     border: none; 
     color: #fdffff; 
     width: 100px; 
@@ -118,14 +210,20 @@ body, html {
     margin-right: 0px
 }
 
-#feedback {
+#user-text {
     width: 100%; 
     resize: none;
 }
 
-.responseicon {
+.response-icon-face {
     height: 50px;
     position: absolute;
+}
+
+.response-icon-quote {
+    height: 45px;
+    position: absolute;
+    margin-left: 3px;
 }
 
 #question {
@@ -137,20 +235,24 @@ body, html {
     width: 50%;
 }
 
-#user_comment, #feedback_title {
+#user-comment, #feedback-title {
     padding: 0px 0px 0px 75px;
 }
 
-#feedback_title {
+#feedback-title {
     font-weight: bold;
 }
 
-#feedback_comment {
+#feedback-comment {
     padding: 10px 0px 0px 75px;
 }
 
 #coupon {
     display: none;
+}
+
+#response-hr {
+    margin-top: 30px;
 }
 
 .containerrecent, .containertable {
@@ -198,12 +300,18 @@ body, html {
     padding-left: 0;
 }
 
-#send_button:disabled{
+#send-button:disabled{
     background-color: #d2d4db;
 }
 
-#send_button:enabled{
+#send-button:enabled{
     background-color: #00bcc3; 
+}
+
+#error-message {
+    display: none;
+    margin-top: 70px; 
+    color: rgb(211, 39, 16);
 }
 
 footer {
@@ -211,13 +319,16 @@ footer {
     margin-top: 100px;
     width: 100%;
     color: #ffffff; 
+    height: 60px;
     overflow: hidden; 
+    bottom: 0;
     background-color: #0F355B;
+    /* position: fixed; */
 }
 
 footer a{
     text-align: center;
-    padding: 18px 60px;
+    padding: 15px 60px;
     text-decoration: none;
     font-size: 18px;
     float: left;

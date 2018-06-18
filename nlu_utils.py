@@ -21,33 +21,36 @@ class NLUUtils:
             emotion=True, sentiment=True), keywords=KeywordsOptions(emotion=True, sentiment=True))
 
     def analyze_sentiment(self, text):
-        response = self.nlu.analyze(text=text, features=self.features)
+        try:
+            response = self.nlu.analyze(text=text, features=self.features)
 
-        neg_count = 0
-        pos_count = 0
-        neut_count = 0
+            neg_count = 0
+            pos_count = 0
+            neut_count = 0
 
-        for kw in response['keywords']:
-            if kw['sentiment']['label'] == 'positive':
-                pos_count += 1
-            elif kw['sentiment']['label'] == 'negative':
-                neg_count += 1
-            else:
-                neut_count += 1
+            for kw in response['keywords']:
+                if kw['sentiment']['label'] == 'positive':
+                    pos_count += 1
+                elif kw['sentiment']['label'] == 'negative':
+                    neg_count += 1
+                else:
+                    neut_count += 1
 
-        if pos_count > neg_count and pos_count > neut_count:
-            return 'positive'
-        elif neg_count > pos_count and neg_count > neut_count:
-            return 'negative'
-        elif neut_count > pos_count and neut_count > neg_count:
-            return 'neutral'
-        elif neut_count == pos_count and neut_count > neg_count:
-            return 'neutral'
-        elif neg_count == pos_count and neg_count > neut_count:
-            return 'neutral'
-        elif neut_count == neg_count and neut_count > pos_count:
-            return 'neutral'
-        elif neut_count == pos_count and neut_count == neg_count:
+            if pos_count > neg_count and pos_count > neut_count:
+                return 'positive'
+            elif neg_count > pos_count and neg_count > neut_count:
+                return 'negative'
+            elif neut_count > pos_count and neut_count > neg_count:
+                return 'neutral'
+            elif neut_count == pos_count and neut_count > neg_count:
+                return 'neutral'
+            elif neg_count == pos_count and neg_count > neut_count:
+                return 'neutral'
+            elif neut_count == neg_count and neut_count > pos_count:
+                return 'neutral'
+            elif neut_count == pos_count and neut_count == neg_count:
+                return 'neutral'
+        except Exception:
             return 'neutral'
 
 

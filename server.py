@@ -48,7 +48,13 @@ def process_comment():
 @app.route('/analyze', methods=['POST'])
 def analyze():
     comment = request.get_json(force=True)
-    return jsonify(wml_client.score_model(comment))
+    print("Request to anayze: ")
+    print(comment)
+    try:
+        response = wml_client.score_model(comment)
+        return jsonify(response), 200
+    except Exception as e:
+        return str(e), 500
 
 @app.route('/analyzesent', methods=['POST'])
 def analyzesent():
