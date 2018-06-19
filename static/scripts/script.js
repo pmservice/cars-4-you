@@ -1,5 +1,3 @@
-var requestSend = false;
-
 var logoImage = document.getElementById("logoimg")
 var textInput = document.getElementById('user-text');
 var userComment = document.getElementById("user-comment");
@@ -25,12 +23,10 @@ var statusInput = document.getElementById("status-input");
 var childrenInput = document.getElementById("children-input");
 var carownerInput = document.getElementById("owner-input");
 var activeInput = document.getElementById("active-input");
-
-var happyFacePath = "staticImages/thumb_up_notselected.svg";
-var happyFaceSelectedPath = "staticImages/thumb_up_selected.svg";
-var sadFacePath = "staticImages/thumb_down_notselected.svg";
-var sadFaceSelectedPath = "staticImages/thumb_down_selected.svg";
-
+var happyFacePath = "staticImages/thumb_up.svg";
+var happyFaceSelectedPath = "staticImages/thumb_up_on.svg";
+var sadFacePath = "staticImages/thumb_down.svg";
+var sadFaceSelectedPath = "staticImages/thumb_down_on.svg";
 
 var payloadData = {
     "comment": "",
@@ -40,7 +36,7 @@ var payloadData = {
     "age": 36,
     "customer": "Active",
     "owner": "Yes",
-    "satisfaction": 1
+    "satisfaction": -1
 };
 
 var userData = {
@@ -48,26 +44,6 @@ var userData = {
     "lastname" : "Smith",
     "payload": payloadData
 };
-
-var userFirstName = "John";
-var userLastName = "Smith";
-var gender = "Male";
-var age = 36;
-var status = "Single";
-var children = 2;
-var owner = "Yes";
-var active = "Active";
-
-var satisfaction = 1;
-
-var selectedFace = null;
-var timeout = null;
-
-/* DISABLE NLU */
-// textInput.onkeyup = function (e) {
-//     clearTimeout(timeout);
-//     timeout = setTimeout(get_sentiment, 800);
-// };
 
 cancelButton.onclick = function (e) {
     reset_sidebar();
@@ -81,32 +57,30 @@ saveButton.onclick = function (e) {
 
 sadFaceImage.onclick = select_sad;
 happyFaceImage.onclick = select_happy;
+
 avatarButton.onclick = function (e) {
     show_hide_sidebar();
 }
 
 logoImage.onclick = function (e) {
-    console.log("reloding ...");
     location.reload();
 }
 
-sendButton.onclick = send_comment;
-
-function send_comment() {
-    console.log("--> Sending comment to preproces.");
+sendButton.onclick = function (e) {
+    console.log("--> sendButton.onclick():");
     var comment = textInput.value;
     userComment.innerHTML = comment;
 
-    if (selectedFace === null) {
+    if (userData.payload.satisfaction === -1) {
         send_with_sentiment(comment);
     }
     else {
-        send_request(comment, satisfaction);
+        send_request(comment);
     }
 }
 
 function send_with_sentiment(text) {
-    console.log("Sending request with sentiment: ");
+    console.log("--> send_with_sentiment(): ");
     console.log(text);
     $.post(
         "/analyzesent",
@@ -114,28 +88,30 @@ function send_with_sentiment(text) {
         function (data) {
             console.log(data)
             if (data === 'negative') {
-                send_request(text, 0);
+                userData.payload.satisfaction = 0;
+                send_request(text);
             }
             else {
-                send_request(text, 1);
+                userData.payload.satisfaction = 1;
+                send_request(text);
             }
         }
     );
 }
 
-function send_request(comment, satisfaction) {
+function send_request(comment) {
     userData.payload.comment = comment;
-    console.log("Sending post request to scoring ...");
+    console.log("--> send_request():");
     $.ajax({
         method: "POST",
         contentType: "application/json",
         url: "/analyze",
         data: JSON.stringify(userData.payload),
         success: function (data) {
-            console.log("Response: ");
+            console.log("response: ");
             console.log(data);
 
-            update_face(satisfaction);
+            update_face(userData.payload.satisfaction);
             feedbackComment.innerHTML = data['client_response'];
 
             questionBox.style.display = "none";
@@ -154,10 +130,7 @@ function send_request(comment, satisfaction) {
 }
 
 function update_face(satisfaction) {
-    if (selectedFace != null) {
-        responseFace.src = selectedFace.src;
-    }
-    else if (satisfaction == 1) {
+    if (satisfaction == 1) {
         responseFace.src = happyFaceSelectedPath;
     }
     else {
@@ -165,35 +138,9 @@ function update_face(satisfaction) {
     }
 }
 
-function get_sentiment() {
-    var text = textInput.value;
-    console.log('Input Value:', text);
-
-    if (text.length > 10) {
-        console.log("sending request");
-        $.post(
-            "/analyzesent",
-            text,
-            function (data) {
-                console.log(data)
-                if (data === 'negative') {
-                    select_sad();
-                }
-                else {
-                    select_happy();
-                }
-            }
-        );
-    }
-    else {
-        deselect_faces();
-    }
-}
-
 function select_happy() {
     happyFaceImage.src = happyFaceSelectedPath;
     sadFaceImage.src = sadFacePath;
-    selectedFace = happyFaceImage;
     userData.payload.satisfaction = 1;
     sendButton.disabled = false;
 }
@@ -201,7 +148,6 @@ function select_happy() {
 function select_sad() {
     happyFaceImage.src = happyFacePath;
     sadFaceImage.src = sadFaceSelectedPath;
-    selectedFace = sadFaceImage;
     userData.payload.satisfaction = 0;
     sendButton.disabled = false;
 }
@@ -252,3 +198,35 @@ function reset_sidebar() {
 
     console.log(userData);
 }
+
+
+/* DISABLE NLU */
+// var timeout = null;
+// textInput.onkeyup = function (e) {
+//     clearTimeout(timeout);
+//     timeout = setTimeout(get_sentiment, 800);
+// };
+// function get_sentiment() {
+//     var text = textInput.value;
+//     console.log('Input Value:', text);
+
+//     if (text.length > 10) {
+//         console.log("sending request");
+//         $.post(
+//             "/analyzesent",
+//             text,
+//             function (data) {
+//                 console.log(data)
+//                 if (data === 'negative') {
+//                     select_sad();
+//                 }
+//                 else {
+//                     select_happy();
+//                 }
+//             }
+//         );
+//     }
+//     else {
+//         deselect_faces();
+//     }
+// }

@@ -1,7 +1,8 @@
 {
-  "url": "https://ibm-watson-ml.mybluemix.net",
-  "access_key": "bX9lbH6lRnYNa/94GhfKD4Ak2Nkd9Ue9I+J3umltL3XpnyRRTdWl4YenXRD2OjCu3jpZpkk6BrPBAxcoShdp/besx4zIFYgx67dxC1Vdtm0oTkegKRgP36tEXUb2cV+r",
-  "username": "ce0513a4-27c9-4f72-91f9-ca7034abe206",
-  "password": "fbd2b511-ad4e-4e7c-ae44-87ca93a7c3cf",
-  "instance_id": "fff7d89f-f25d-4025-b788-0fe4ca19a5ea"
+  "instance_id": "b1875b6a-9af3-4f77-9002-da52ca0a9610",
+  "password": "849eef41-ed9c-42f5-9617-0d1f83ca304a",
+  "url": "https://wml-fvt.stage1.machine-learning.ibm.com",
+  "username": "76927e16-c8cf-461e-989a-350eba894a6b",
+  "model_id": "98b137ec-b5c3-4f2a-8f5c-d32af126e439",
+  "deployment_id": "7f0b3eb0-88f0-4220-b8ec-2d0ec8357cff"
 }
