@@ -25,15 +25,7 @@ body, html {
     padding: 19px 40px 19px 40px;
     text-decoration: none;
     font-size: 18px;
-}
-
-.topnavdark input{
-    float: left;
-    color: #ffffff; 
-    text-align: center;
-    background-color: transparent;
-    padding: 15px 30px 10px 20px;
-    height: 60px; 
+    
 }
 
 #logoimg {
@@ -86,22 +78,72 @@ body, html {
 #avatar-button{
     float: right;
     outline: none;
+    color: #ffffff; 
+    text-align: center;
+    background-color: transparent;
+    height: 30px;
+    border: 2px solid #ffffff;
+    border-radius: 52%;
+    margin: 18px 5px 15px 20px;
+    padding-top: 2px;
+    width: 30px;
 }
 
+#user-welcome {
+    float: right;
+    padding-left: 0px;
+    background: transparent;
+    color: white;
+    border: none;
+    margin: 18px 20px 10px 0px;
+    outline: none;
+}
+
+#logout-button {
+    float: right;
+    padding: 0px 20px;
+    background: transparent;
+    color: white;
+    border: 2px solid #ffffff;
+    margin: 16px 20px 10px 20px;
+    outline: none;
+}
+
+#user-welcome, #logout-button {
+    font-size: 18px;
+}
 
 #sidebar {
     list-style-type: none;
     position: fixed;
     right: 0px;
     top: 65px;
-    bottom: 80px;
+    height: 800px;
+    bottom: 50px;
     background-color: #f9f9f9;
-    width: 300px;
+    width: 400px;
     color: #0F355B;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-#sidebar a {
-    font-weight: bold;
+#sidebar-details {
+    float: right;
+    display: block;
+    margin: 25px 50px 0px 0px;
+}
+
+#cust-name{
+    font-size: 18px;
+    margin: 0;
+}
+
+#sidebar-input a, input, select {
+    margin-left: 25px;
+    font-size: 17px;
+}
+
+#sidebar-input a {
+    font-weight: normal;
 }
 
 #sidebar li{
@@ -115,11 +157,12 @@ body, html {
     padding-top: 5px;
 }
 
-#sidebar input {
+#sidebar-input input {
     margin-bottom: 10px;
+    outline: none;
 }
 
-#sidebar select {
+#sidebar-input select {
     margin-bottom: 10px;
     border: none;
     background: transparent;
@@ -127,31 +170,36 @@ body, html {
     -webkit-appearance: none;
     -moz-appearance: none;
     display: block;
-    width: 120px;
     text-align: left;
 
-    background-image: url("select_arrow.png");
-    background-size: 40px 35px;
+    background-image: url("arrow.svg");
+    background-size: 20px;
     background-position: right center;
-    
-
     background-repeat: no-repeat; 
+    font-weight: lighter;
+    color: #0F355B;
+
+    outline: none;
+    
 }
 
-#sidebar select:focus {
+#sidebar-input select:focus {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
+    outline: none;
 }
 
 .sidebar-text, .sidebar-number {
     background: transparent; 
     border:none; 
     border-bottom: 1px solid #bcc4cb; 
+    font-weight: lighter;
+    color: #0F355B;
 }
 
 .sidebar-number {
-    width: 30%;
+    width: 40%;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -159,9 +207,10 @@ body, html {
 
 #sidebar-cancel, #sidebar-save {
     float: right;
-    margin-right: 20px;
-    width: 70px;
+    margin-right: 15px;
+    width: 75px;
     border: none;
+    outline: none;
 }
 #sidebar-cancel {
     color: #15BCC3; 
@@ -171,6 +220,50 @@ body, html {
 #sidebar-save {
     color: #f9f9f9;
     background-color: #15BCC3;
+}
+
+#sidebar-delete{
+    color: #15BCC3; 
+    background-color: transparent;
+    float: left;
+    margin: 3px 0 0 -5px;
+    width: 140px;
+    border: none;
+    outline: none;
+    font-size: 18px;
+}
+
+#sidebar-image-delete{
+    height: 17px;
+    border: none;
+    outline: none;
+    float: left;
+    margin: 9px 0 0 -25px;
+}
+
+#sidebar-avatar {
+    height: 55px;
+    width: 55px;
+    margin: 20px 10px 8px 35px;
+    border: 2px solid #0F355B;
+    border-radius: 50%;
+    padding-top: 8px;
+}
+
+#gender-input {
+    width: 85px;
+}
+
+#status-input {
+    width: 85px;
+}
+
+#owner-input {
+    width: 55px;
+}
+
+#active-input {
+    width: 85px;
 }
 
 .containerbox {

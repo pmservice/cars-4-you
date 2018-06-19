@@ -19,79 +19,87 @@
 
 	<ul id="sidebar" style="display: none; ">
 		<li style="font-size: 15px;">
-			<img src="staticImages/avatar.svg" alt="" style="height: 45px; margin-top: 20px">
-			<a id="cust-name" style="font-size: 18px; margin-left: 10px; margin-top: 50px">John Smith</a>
+			<img id="sidebar-avatar" src="staticImages/avatar_dark.svg" alt="">
+			<div id="sidebar-details">
+				<p id="cust-name">John Smith</p>
+				<p style="font-weight: lighter">Member since may 18, 2018</p>
+			</div>
 		</li>
-		<hr>
-		<li>
-			<a>First Name</a>
-		</li>
-		<li>
-			<input id="first-name-input" class="sidebar-text" type="text" size="15" value="John">
-		</li>
-		<li>
-			<a>Last Name</a>
-		</li>
-		<li>
-			<input id="last-name-input" class="sidebar-text" type="text" size="15" value="Smith">
-		</li>
-		<li>
-			<a>Gender</a>
-		</li>
-		<li>
-			<select name="" id="gender-input">
-				<option value="Female">Female</option>
-				<option value="Male">Male</option>
-			</select>
-		</li>
-		<li>
-			<a>Age</a>
-		</li>
-		<li>
-			<input id="age-input" class="sidebar-number" type="tel" min="1" max="100" maxlength="3" value="36" size="5">
-		</li>
-		<li>
-			<a>Status</a>
-		</li>
-		<li>
-			<select name="" id="status-input">
-				<option value="S">Single</option>
-				<option value="M">Married</option>
-			</select>
-		</li>
-		<li>
-			<a>Children</a>
-		</li>
-		<li>
-			<input id="children-input" class="sidebar-number" type="tel" maxlength="2" size="15" value="2">
-		</li>
-		<li>
-			<a>Car owner</a>
-		</li>
-		<li>
-			<select name="" id="owner-input">
-				<option value="Yes">Yes</option>
-				<option value="No">No</option>
-			</select>
-		</li>
-		<li>
-			<a>Active</a>
-		</li>
-		<li>
-			<select name="" id="active-input">
-				<option value="Active">Active</option>
-				<option value="Inactive">Inactive</option>
-			</select>
-		</li>
-		<hr style="margin-top: 20px;">
-		<button id="sidebar-save">Save</button>
-		<button id="sidebar-cancel">Cancel</button>
+		<hr style="margin-bottom: 0px;">
+		<div id="sidebar-input">
+			<li>
+				<a>First Name</a>
+			</li>
+			<li>
+				<input id="first-name-input" class="sidebar-text" type="text" size="32" value="John">
+			</li>
+			<li>
+				<a>Last Name</a>
+			</li>
+			<li>
+				<input id="last-name-input" class="sidebar-text" type="text" size="32" value="Smith">
+			</li>
+			<li>
+				<a>Gender</a>
+			</li>
+			<li>
+				<select name="" id="gender-input">
+					<option value="Male">Male</option>
+					<option value="Female">Female</option>
+				</select>
+			</li>
+			<li>
+				<a>Age</a>
+			</li>
+			<li>
+				<input id="age-input" class="sidebar-number" type="tel" min="1" max="100" maxlength="3" value="36" size="5">
+			</li>
+			<li>
+				<a>Status</a>
+			</li>
+			<li>
+				<select name="" id="status-input">
+					<option value="S">Single</option>
+					<option value="M">Married</option>
+				</select>
+			</li>
+			<li>
+				<a>Children</a>
+			</li>
+			<li>
+				<input id="children-input" class="sidebar-number" type="tel" maxlength="2" size="15" value="2">
+			</li>
+			<li>
+				<a>Car owner</a>
+			</li>
+			<li>
+				<select name="" id="owner-input">
+					<option value="Yes">Yes</option>
+					<option value="No">No</option>
+				</select>
+			</li>
+			<li>
+				<a>Active</a>
+			</li>
+			<li>
+				<select name="" id="active-input">
+					<option value="Active">Active</option>
+					<option value="Inactive">Inactive</option>
+				</select>
+			</li>
+			<hr style="margin-top: 20px;">
+			<img id="sidebar-image-delete" src="staticImages/delete_account.svg">
+			<button id="sidebar-delete">Delete Account</button>
+			<button id="sidebar-save">Save</button>
+			<button id="sidebar-cancel">Cancel</button>
+		</div>
 	</ul>
 
 	<div class="topnavdark">
 		<img id="logoimg" src="staticImages/logo.svg" class="img-fluid">
-		<input id="avatar-button" style="float: right; outline: none" type="image" src="staticImages/avatar.svg" />
-
+		<input id="logout-button" type="button" value="Log Out"/>
+		<input id="user-welcome" type="button" value="Welcome, John!"/>
+		<input id="avatar-button" type="image" src="staticImages/avatar.svg"/>
 		<a style="float: right;">
 			<img src="staticImages/globe.svg" alt=""> USD
 		</a>
@@ -156,7 +164,7 @@
 			<div id="user-comment">
 				<a></a>
 			</div>
-			<hr style="margin-top: 30px">
+			<hr style="margin-top: 40px">
 			<img src="staticImages/quote.svg" class="img-fluid response-icon-quote">
 			<a id="feedback-title">Thank you for your feedback.</a>
 			<p id="feedback-comment"></p>

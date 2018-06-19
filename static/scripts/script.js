@@ -10,7 +10,6 @@ var feedbackTitle = document.getElementById("feedback-title");
 var questionBox = document.getElementById("question");
 var responseBox = document.getElementById("response");
 var sidebar = document.getElementById("sidebar");
-var avatarButton = document.getElementById("avatar-button");
 var errorPanel = document.getElementById("error-message");
 var saveButton = document.getElementById("sidebar-save");
 var cancelButton = document.getElementById("sidebar-cancel");
@@ -55,12 +54,13 @@ saveButton.onclick = function (e) {
     show_hide_sidebar();
 }
 
-sadFaceImage.onclick = select_sad;
-happyFaceImage.onclick = select_happy;
+sadFaceImage.addEventListener('click', select_sad);
+happyFaceImage.addEventListener('click', select_happy);
 
-avatarButton.onclick = function (e) {
-    show_hide_sidebar();
-}
+document.getElementById("avatar-button").addEventListener('click', show_hide_sidebar);
+document.getElementById("user-welcome").addEventListener('click', show_hide_sidebar);
+document.getElementById("logout-button").addEventListener('click', function() { location.reload(); });
+
 
 logoImage.onclick = function (e) {
     location.reload();
@@ -182,6 +182,8 @@ function update_customer_name() {
     userData.payload.childrens = childrenInput.value;
     userData.payload.customer = activeInput.value;
     userData.payload.owner = carownerInput.value;
+
+    document.getElementById("user-welcome").value = "Welcome, " + firstName.value + "!";
 
     console.log(userData);
 }
