@@ -1,6 +1,5 @@
 # Car Rental Sample Application
 
-TODO
 
 ## Requirements:
 - python 3
