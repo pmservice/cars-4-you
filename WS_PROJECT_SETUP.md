@@ -4,7 +4,7 @@ Please find step by step instruction below.
 
 ## Project configuration
 - create project
-- assosiate: Watson Machine Learning
+- assosiate: Watson Machine Learning and Spark service
 
 ## Training data set
 - upload the [training data set](https://raw.githubusercontent.com/pmservice/wml-sample-models/master/spark/cars-4-you/data/car_rental_training_data.csv) to DB2 Warehouse on Cloud
