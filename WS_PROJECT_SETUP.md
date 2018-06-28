@@ -16,7 +16,9 @@ Please find step by step instruction below.
 
 ## Notebook to train a model, deploy and configure payload logging
 - upload a [notebook](https://dataplatform.ibm.com/analytics/notebooks/v2/5b767931-5a0e-4a03-b8bb-a34562813b0a/view?access_token=af146a6fe880b0fd8afa60affc21b3f2e7658726239e93f60e0d31a233457046) to Watson Studio project
+
 **Note:** Use Spark runtime when uplaoding the notebook
+
 - use `insert to code as spark df` feature to insert the training data table connection (cell [2])
 - replace the postgress sql database connection in payload logging section of the notebook (cell [87])
 - replace wml_credentials
