@@ -3,7 +3,7 @@ The sample application requires machine learning models trained and deployed usi
 Please find step by step instruction below.
 
 ## Project configuration
-- create project
+- create project in [Watson Studio](dataplatform.cloud.ibm.com)
 - assosiate: Watson Machine Learning and Spark service
 
 ## Training data set

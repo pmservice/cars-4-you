@@ -51,6 +51,43 @@ def analyzesent():
     print("--> Sentiment: {}".format(sentiment))
     return sentiment
 
+@app.route('/areadeployments', methods=['GET'])
+def areadeployments():
+    deployment_array = wml_client.get_area_deployments()
+    print("--> Area deployments: {}".format(deployment_array))
+    response = {
+        "deployments" : deployment_array
+    }
+    return jsonify(response)
+
+@app.route('/actiondeployments', methods=['GET'])
+def actiondeployments():
+    deployment_array = wml_client.get_action_deployments()
+    print("--> Action deployments: {}".format(deployment_array))
+    response = {
+        "deployments" : deployment_array
+    }
+    return jsonify(response)
+
+@app.route('/updatemodels', methods=['POST'])
+def updatemodels():
+    models = request.get_json(force=True)
+    print("Request to anayze: ")
+    print(models)
+    try:
+        wml_client.update_models(models)
+        wml_client.update_scorings()
+        return "ok", 200
+    except Exception as e:
+        return str(e), 500
+
+@app.route('/checkdeployments', methods=['GET'])
+def checkdeployments():
+    if wml_client.check_deployments():
+        return jsonify(True), 200
+    else:
+        return jsonify(False), 200
+
 port = os.getenv('PORT', '5000')
 if __name__ == "__main__":
         app.run(host='0.0.0.0', port=int(port))

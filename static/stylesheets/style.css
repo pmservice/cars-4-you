@@ -89,13 +89,22 @@ body, html {
     width: 30px;
 }
 
-#user-welcome {
+#user-welcome{
     float: right;
     padding-left: 0px;
     background: transparent;
     color: white;
     border: none;
     margin: 18px 20px 10px 0px;
+    outline: none;
+}
+
+#model-button{
+    float: right;
+    background: transparent;
+    color: white;
+    border: none;
+    margin: 18px 20px 10px 10px;
     outline: none;
 }
 
@@ -109,11 +118,11 @@ body, html {
     outline: none;
 }
 
-#user-welcome, #logout-button {
+#user-welcome, #logout-button, #model-button{
     font-size: 18px;
 }
 
-#sidebar {
+#sidebar, #sidebar-models {
     list-style-type: none;
     position: fixed;
     right: 0px;
@@ -124,6 +133,10 @@ body, html {
     width: 400px;
     color: #0F355B;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+#sidebar-models{
+    height: 300px;
 }
 
 #sidebar-details {
@@ -146,23 +159,27 @@ body, html {
     font-weight: normal;
 }
 
-#sidebar li{
+#sidebar li, #sidebar-models li{
     margin-left: -20px;
     width: 100%;
 }
 
-#sidebar hr {
+#sidebar-models li {
+    margin-top: 20px;
+}
+
+#sidebar hr, #sidebar-models hr {
     margin-left: -30px;
     margin-right: 10px;
     padding-top: 5px;
 }
 
-#sidebar-input input {
+#sidebar-input input, #sidebar-models input {
     margin-bottom: 10px;
     outline: none;
 }
 
-#sidebar-input select {
+#sidebar-input select, #sidebar-models select {
     margin-bottom: 10px;
     border: none;
     background: transparent;
@@ -183,7 +200,7 @@ body, html {
     
 }
 
-#sidebar-input select:focus {
+#sidebar-input select:focus, #sidebar-models select:focus {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -205,19 +222,24 @@ body, html {
     appearance: none;
 }
 
-#sidebar-cancel, #sidebar-save {
+#sidebar-cancel, #sidebar-save, #sidebar-model-save, #sidebar-model-cancel {
     float: right;
     margin-right: 15px;
     width: 75px;
     border: none;
     outline: none;
 }
-#sidebar-cancel {
+
+#sidebar-model-save, #sidebar-model-cancel {
+    margin-top: 40px;
+}
+
+#sidebar-cancel, #sidebar-model-cancel {
     color: #15BCC3; 
     background-color: transparent;
 }
 
-#sidebar-save {
+#sidebar-save, #sidebar-model-save {
     color: #f9f9f9;
     background-color: #15BCC3;
 }
@@ -248,6 +270,11 @@ body, html {
     border: 2px solid #0F355B;
     border-radius: 50%;
     padding-top: 8px;
+}
+
+#nlu-input, #area-input {
+    width: 330px;
+    margin: 15px 0 10px 20px;
 }
 
 #gender-input {

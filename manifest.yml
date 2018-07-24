@@ -2,5 +2,6 @@ applications:
 - path: .
   memory: 128M
   instances: 1
-  name: car-rental-sample-app-90
-  random-route: true
+  name: car-rental-sample-app
+  routes:
+  - route: car-rental-sample-app.mybluemix.net

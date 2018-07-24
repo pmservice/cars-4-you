@@ -95,15 +95,38 @@
 		</div>
 	</ul>
 
+	<ul id="sidebar-models" style="display: none; ">
+
+		<li>
+			<a>Action prediction:</a>
+		</li>
+		<li>
+			<select name="" id="nlu-input">
+			</select>
+		</li>
+		<li>
+			<a>Area prediction:</a>
+		</li>
+		<li>
+			<select name="" id="area-input">
+			</select>
+		</li>
+
+		<button id="sidebar-model-save">Save</button>
+		<button id="sidebar-model-cancel">Cancel</button>
+
+	</ul>
+
 	<div class="topnavdark">
 		<img id="logoimg" src="staticImages/logo.svg" class="img-fluid">
-		<input id="logout-button" type="button" value="Log Out"/>
-		<input id="user-welcome" type="button" value="Welcome, John!"/>
-		<input id="avatar-button" type="image" src="staticImages/avatar.svg"/>
+		<input id="logout-button" type="button" value="Log Out" />
+		<input id="model-button" type="button" value="Deployments" />
+		<input id="user-welcome" type="button" value="Welcome, John!" />
+		<input id="avatar-button" type="image" src="staticImages/avatar.svg" />
 		<a style="float: right;">
 			<img src="staticImages/globe.svg" alt=""> USD
 		</a>
-		<a style="float: right;">Custommer support</a>
+		<a style="float: right;">Customer support</a>
 	</div>
 
 	<div class="topnavgreen">
@@ -175,7 +198,7 @@
 			Cannot update non existing deployment
 		</div>
 	</div>
-	
+
 	<footer>
 		<a>2018 CARS4U LLC</a>
 		<a class="footerright" style="color: #00bcc3">Privacy Policy</a>
