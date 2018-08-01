@@ -25,8 +25,8 @@ var statusInput = document.getElementById("status-input");
 var childrenInput = document.getElementById("children-input");
 var carownerInput = document.getElementById("owner-input");
 var activeInput = document.getElementById("active-input");
-var areaSelection = document.getElementById("area-input");
-var nluSelection = document.getElementById("nlu-input");
+var areaActionSelection = document.getElementById("area-input");
+var sentimentSelection = document.getElementById("nlu-input");
 var happyFacePath = "staticImages/thumb_up.svg";
 var happyFaceSelectedPath = "staticImages/thumb_up_on.svg";
 var sadFacePath = "staticImages/thumb_down.svg";
@@ -107,11 +107,15 @@ function send_with_sentiment(text) {
         text,
         function (data) {
             console.log(data)
-            if (data === 'negative') {
+            if (data === '0') {
                 userData.payload.satisfaction = 0;
                 send_request(text);
             }
-            else {
+            else if(data === '1') {
+                userData.payload.satisfaction = 1;
+                send_request(text);
+            }
+            else{
                 userData.payload.satisfaction = 1;
                 send_request(text);
             }
@@ -119,53 +123,64 @@ function send_with_sentiment(text) {
     );
 }
 
-function get_area_deployments() {
-    console.log("--> get_area_deployments(): ");
+function get_area_action_deployments() {
+    console.log("--> get_area_action_deployments(): ");
     $.get(
-        "/areadeployments",
+        "/actionareadeployments",
         function (data) {
-            areaSelection.innerHTML = "";
+            console.log("Current value.")
+            currentValue = areaActionSelection.value;
+            console.log(currentValue);
+            areaActionSelection.innerHTML = "";
             if (data['deployments'].length == 0){
                 var opt = document.createElement('option');
                 opt.value = "< no deployments >";
                 opt.innerHTML = "< no deployments >";
-                areaSelection.appendChild(opt);
+                areaActionSelection.appendChild(opt);
             }
             else{
-                areaSelection.innerHTML = "";
-
                 data['deployments'].forEach(element => {
                     console.log(element);
                     var opt = document.createElement('option');
-                    opt.value = element;
-                    opt.innerHTML = element;
-                    areaSelection.appendChild(opt);
+                    opt.value = element['guid'];
+                    opt.innerHTML = element['name'];
+                    areaActionSelection.appendChild(opt);
                 }); 
+                if (currentValue != null && currentValue != ""){
+                    areaActionSelection.value = currentValue;
+                }
             }
         }
     );
 }
 
-function get_action_deployments() {
-    console.log("--> get_action_deployments(): ");
+function get_sentiment_deployments() {
+    console.log("--> get_sentiment_deployments(): ");
     $.get(
-        "/actiondeployments",
+        "/sentimentdeployments",
         function (data) {
-            nluSelection.innerHTML = "";
+            console.log("Current value.")
+            currentValue = sentimentSelection.value;
+            console.log(currentValue);
+            
+            sentimentSelection.innerHTML = "";
             if (data['deployments'].length == 0){
                 var opt = document.createElement('option');
                 opt.value = "< no deployments >";
                 opt.innerHTML = "< no deployments >";
-                nluSelection.appendChild(opt);
+                sentimentSelection.appendChild(opt);
             }
             else{
                 data['deployments'].forEach(element => {
                     console.log(element);
                     var opt = document.createElement('option');
-                    opt.value = element;
-                    opt.innerHTML = element;
-                    nluSelection.appendChild(opt);
+                    opt.value = element['guid'];
+                    opt.innerHTML = element['name'];
+                    sentimentSelection.appendChild(opt);
                 }); 
+                if (currentValue != null && currentValue != ""){
+                    sentimentSelection.value = currentValue;
+                }
             }
         }
     );
@@ -173,8 +188,8 @@ function get_action_deployments() {
 
 
 function check_deployments(){
-    get_area_deployments();
-    get_action_deployments();
+    get_sentiment_deployments();
+    get_area_action_deployments();
 
     console.log("--> check_deployments(): ");
     $.get(
@@ -222,10 +237,11 @@ function send_request(comment) {
 }
 
 function update_models() {
-    console.log(areaSelection.value);
-    console.log(nluSelection.value);
+    console.log("Updating models!")
+    console.log(areaActionSelection.value);
+    console.log(sentimentSelection.value);
 
-    var models_payload = {"area": areaSelection.value, "action": nluSelection.value}
+    var models_payload = {"areaaction" : areaActionSelection.value, "sentiment" : sentimentSelection.value }
 
     console.log("--> update_models():");
     $.ajax({
@@ -261,8 +277,6 @@ function select_happy() {
     sadFaceImage.src = sadFacePath;
     userData.payload.satisfaction = 1;
     sendButton.disabled = false;
-
-    check_deployments();
 }
 
 function select_sad() {
@@ -270,8 +284,6 @@ function select_sad() {
     sadFaceImage.src = sadFaceSelectedPath;
     userData.payload.satisfaction = 0;
     sendButton.disabled = false;
-
-    check_deployments();
 }
 
 function deselect_faces() {
@@ -296,8 +308,6 @@ function show_hide_sidebar() {
     else {
         sidebar.style.display = "none"
     }
-
-    check_deployments();
 }
 
 function show_hide_model_sidebar() {
@@ -305,13 +315,12 @@ function show_hide_model_sidebar() {
         show_hide_sidebar();
     }
     if (modelSidebar.style.display === "none") {
+        check_deployments();
         modelSidebar.style.display = "block";
     }
     else {
         modelSidebar.style.display = "none"
     }
-
-    check_deployments();
 }
 
 function update_customer_name() {
@@ -344,32 +353,34 @@ function reset_sidebar() {
 
 
 /* DISABLE NLU */
-// var timeout = null;
-// textInput.onkeyup = function (e) {
-//     clearTimeout(timeout);
-//     timeout = setTimeout(get_sentiment, 800);
-// };
-// function get_sentiment() {
-//     var text = textInput.value;
-//     console.log('Input Value:', text);
+var timeout = null;
+textInput.onkeyup = function (e) {
+    clearTimeout(timeout);
+    timeout = setTimeout(get_sentiment, 800);
+};
+function get_sentiment() {
+    var text = textInput.value;
+    console.log('Input Value:', text);
 
-//     if (text.length > 10) {
-//         console.log("sending request");
-//         $.post(
-//             "/analyzesent",
-//             text,
-//             function (data) {
-//                 console.log(data)
-//                 if (data === 'negative') {
-//                     select_sad();
-//                 }
-//                 else {
-//                     select_happy();
-//                 }
-//             }
-//         );
-//     }
-//     else {
-//         deselect_faces();
-//     }
-// }
+    if (text.length > 10) {
+        console.log("sending request");
+        $.post(
+            "/analyzesent",
+            text,
+            function (data) {
+                console.log(data)
+                if (data === '0') {
+                    select_sad();
+                    userData.payload.satisfaction = 0
+                }
+                else {
+                    select_happy();
+                    userData.payload.satisfaction = 1
+                }
+            }
+        );
+    }
+    else {
+        deselect_faces();
+    }
+}

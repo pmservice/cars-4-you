@@ -46,24 +46,25 @@ def analyze():
 @app.route('/analyzesent', methods=['POST'])
 def analyzesent():
     comment = request.get_data().decode('utf-8')
-    sentiment = nlu_utils.analyze_sentiment(comment)
+    sentiment = wml_client.analyze_sentiment(comment)
+    # sentiment = nlu_utils.analyze_sentiment(comment)
     print("--> Comment: {}".format(comment))
     print("--> Sentiment: {}".format(sentiment))
     return sentiment
 
-@app.route('/areadeployments', methods=['GET'])
+@app.route('/sentimentdeployments', methods=['GET'])
 def areadeployments():
-    deployment_array = wml_client.get_area_deployments()
-    print("--> Area deployments: {}".format(deployment_array))
+    deployment_array = wml_client.get_sentiment_functions()
+    print("--> Sentiment deployments: {}".format(deployment_array))
     response = {
         "deployments" : deployment_array
     }
     return jsonify(response)
 
-@app.route('/actiondeployments', methods=['GET'])
+@app.route('/actionareadeployments', methods=['GET'])
 def actiondeployments():
-    deployment_array = wml_client.get_action_deployments()
-    print("--> Action deployments: {}".format(deployment_array))
+    deployment_array = wml_client.get_areaaction_functions()
+    print("--> Action and area functions: {}".format(deployment_array))
     response = {
         "deployments" : deployment_array
     }
@@ -77,9 +78,10 @@ def updatemodels():
     try:
         wml_client.update_models(models)
         wml_client.update_scorings()
-        return "ok", 200
+        return jsonify("ok"), 200
     except Exception as e:
-        return str(e), 500
+        print(str(e))
+        return jsonify(str(e)), 500
 
 @app.route('/checkdeployments', methods=['GET'])
 def checkdeployments():
