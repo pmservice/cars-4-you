@@ -6,7 +6,6 @@ var happyFaceImage = document.getElementById('happy');
 var responseFace = document.getElementById("response-face");
 var sendButton = document.getElementById("send-button");
 var feedbackComment = document.getElementById("feedback-comment");
-var feedbackTitle = document.getElementById("feedback-title");
 var questionBox = document.getElementById("question");
 var responseBox = document.getElementById("response");
 var sidebar = document.getElementById("sidebar");
@@ -31,9 +30,6 @@ var happyFacePath = "staticImages/thumb_up.svg";
 var happyFaceSelectedPath = "staticImages/thumb_up_on.svg";
 var sadFacePath = "staticImages/thumb_down.svg";
 var sadFaceSelectedPath = "staticImages/thumb_down_on.svg";
-var deploymentSelected = false;
-
-
 
 var payloadData = {
     "comment": "",
@@ -52,21 +48,21 @@ var userData = {
     "payload": payloadData
 };
 
-cancelButton.onclick = function (e) {
+cancelButton.onclick = function () {
     reset_sidebar();
     show_hide_sidebar();
 }
 
-saveButton.onclick = function (e) {
+saveButton.onclick = function () {
     update_customer_name();
     show_hide_sidebar();
 }
 
-cancelModelButton.onclick = function(e){
+cancelModelButton.onclick = function(){
     show_hide_model_sidebar();
 }
 
-saveModelButton.onclick = function(e) {
+saveModelButton.onclick = function() {
     show_hide_model_sidebar();
     update_models();
 }
@@ -82,31 +78,29 @@ document.getElementById("model-button").addEventListener('click', show_hide_mode
 
 check_deployments();
 
-logoImage.onclick = function (e) {
+logoImage.onclick = function () {
     location.reload();
 }
 
-sendButton.onclick = function (e) {
-    console.log("--> sendButton.onclick():");
+sendButton.onclick = function () {
     var comment = textInput.value;
     userComment.innerHTML = comment;
 
     if (userData.payload.satisfaction === -1) {
-        send_with_sentiment(comment);
+        send_with_satisfaction(comment);
     }
     else {
         send_request(comment);
     }
 }
 
-function send_with_sentiment(text) {
-    console.log("--> send_with_sentiment(): ");
-    console.log(text);
-    $.post(
-        "/analyzesent",
-        text,
-        function (data) {
-            console.log(data)
+function send_with_satisfaction(text) {
+    $.ajax({
+        method: "POST",
+        contentType: "text/html; charset=utf-8",
+        url: "/analyze/satisfaction",
+        data: text,
+        success: function (data) {
             if (data === '0') {
                 userData.payload.satisfaction = 0;
                 send_request(text);
@@ -119,18 +113,25 @@ function send_with_sentiment(text) {
                 userData.payload.satisfaction = 1;
                 send_request(text);
             }
-        }
-    );
+        },
+        error: function (data, textStatus) {
+            if (textStatus === "timeout"){
+                print_error("Unable to score Satisfaction AI function. Reason: request timeout");
+            }
+            else{
+                print_error(data['responseText']);
+            }                
+        },
+        timeout: 30000,
+        dataType: "json"
+    });
 }
 
 function get_area_action_deployments() {
-    console.log("--> get_area_action_deployments(): ");
     $.get(
-        "/actionareadeployments",
+        "/functions/area",
         function (data) {
-            console.log("Current value.")
-            currentValue = areaActionSelection.value;
-            console.log(currentValue);
+            var currentValue = areaActionSelection.value;
             areaActionSelection.innerHTML = "";
             if (data['deployments'].length == 0){
                 var opt = document.createElement('option');
@@ -140,7 +141,6 @@ function get_area_action_deployments() {
             }
             else{
                 data['deployments'].forEach(element => {
-                    console.log(element);
                     var opt = document.createElement('option');
                     opt.value = element['guid'];
                     opt.innerHTML = element['name'];
@@ -154,14 +154,11 @@ function get_area_action_deployments() {
     );
 }
 
-function get_sentiment_deployments() {
-    console.log("--> get_sentiment_deployments(): ");
+function get_satisfaction_deployments() {
     $.get(
-        "/sentimentdeployments",
+        "/functions/satisfaction",
         function (data) {
-            console.log("Current value.")
-            currentValue = sentimentSelection.value;
-            console.log(currentValue);
+            var currentValue = sentimentSelection.value;
             
             sentimentSelection.innerHTML = "";
             if (data['deployments'].length == 0){
@@ -172,7 +169,6 @@ function get_sentiment_deployments() {
             }
             else{
                 data['deployments'].forEach(element => {
-                    console.log(element);
                     var opt = document.createElement('option');
                     opt.value = element['guid'];
                     opt.innerHTML = element['name'];
@@ -188,10 +184,9 @@ function get_sentiment_deployments() {
 
 
 function check_deployments(){
-    get_sentiment_deployments();
+    get_satisfaction_deployments();
     get_area_action_deployments();
 
-    console.log("--> check_deployments(): ");
     $.get(
         "/checkdeployments",
         function (data) {
@@ -208,15 +203,13 @@ function check_deployments(){
 
 function send_request(comment) {
     userData.payload.comment = comment;
-    console.log("--> send_request():");
+
     $.ajax({
         method: "POST",
         contentType: "application/json",
-        url: "/analyze",
+        url: "/analyze/area",
         data: JSON.stringify(userData.payload),
         success: function (data) {
-            console.log("response: ");
-            console.log(data);
 
             update_face(userData.payload.satisfaction);
             feedbackComment.innerHTML = data['client_response'];
@@ -224,12 +217,7 @@ function send_request(comment) {
             questionBox.style.display = "none";
             responseBox.style.display = "block";
         },
-        error: function (data, textStatus, errorThrown) {
-            console.log("Error Response: ");
-            console.log(data);
-            console.log(data['responseText']);
-            console.log(textStatus);
-            console.log(errorThrown);
+        error: function (data) {
             print_error(data['responseText']);
         },
         dataType: "json"
@@ -237,26 +225,16 @@ function send_request(comment) {
 }
 
 function update_models() {
-    console.log("Updating models!")
-    console.log(areaActionSelection.value);
-    console.log(sentimentSelection.value);
-
-    var models_payload = {"areaaction" : areaActionSelection.value, "sentiment" : sentimentSelection.value }
-
-    console.log("--> update_models():");
+    var models_payload = {"areaaction" : areaActionSelection.value, "satisfaction" : sentimentSelection.value }
+    
     $.ajax({
         method: "POST",
         contentType: "application/json",
-        url: "/updatemodels",
+        url: "/functions",
         data: JSON.stringify(models_payload),
-        success: function (data) {
-            console.log("response: ");
-            console.log(data);
 
-        },
         error: function (data, textStatus, errorThrown) {
-            console.log("Error Response: ");
-            console.log(data);
+            print_error(errorThrown);
         },
         dataType: "json"
     });
@@ -334,8 +312,6 @@ function update_customer_name() {
     userData.payload.owner = carownerInput.value;
 
     document.getElementById("user-welcome").value = "Welcome, " + firstName.value + "!";
-
-    console.log(userData);
 }
 
 function reset_sidebar() {
@@ -348,37 +324,50 @@ function reset_sidebar() {
     activeInput.value = userData.payload.customer;
     carownerInput.value = userData.payload.owner;
 
-    console.log(userData);
+    // console.log(userData);
 }
 
 
 /* DISABLE NLU */
 var timeout = null;
-textInput.onkeyup = function (e) {
+textInput.onkeyup = function () {
     clearTimeout(timeout);
     timeout = setTimeout(get_sentiment, 800);
 };
 function get_sentiment() {
     var text = textInput.value;
-    console.log('Input Value:', text);
 
     if (text.length > 10) {
-        console.log("sending request");
-        $.post(
-            "/analyzesent",
-            text,
-            function (data) {
-                console.log(data)
+        $.ajax({
+            method: "POST",
+            contentType: "text/html; charset=utf-8",
+            url: "/analyze/satisfaction",
+            data: text,
+            success: function (data) {
                 if (data === '0') {
                     select_sad();
-                    userData.payload.satisfaction = 0
+                    userData.payload.satisfaction = 0;
                 }
-                else {
+                else if(data === '1') {
                     select_happy();
-                    userData.payload.satisfaction = 1
+                    userData.payload.satisfaction = 1;
                 }
-            }
-        );
+                else{
+                    select_happy();
+                    userData.payload.satisfaction = 1;
+                }
+            },
+            error: function (data, textStatus) {
+                if (textStatus === "timeout"){
+                    print_error("Unable to score Satisfaction AI function. Reason: request timeout");
+                }
+                else{
+                    print_error(data['responseText']);
+                }                
+            },
+            timeout: 30000,
+            dataType: "json"
+        });
     }
     else {
         deselect_faces();

@@ -1,27 +1,29 @@
 from watson_machine_learning_client import WatsonMachineLearningAPIClient
+from flask.logging import default_handler, logging
 import random
 import re
 import uuid
 
+
+
 class WMLHelper:
     def __init__(self, wml_vcap):
-        print("Authentication ...")
+        self.logger = logging.getLogger(self.__class__.__name__)
+        self.logger.setLevel(logging.DEBUG)
+
+        self.logger.info("Client authentication. Instance id: {}".format(wml_vcap["instance_id"]))
         self.client = WatsonMachineLearningAPIClient(wml_vcap.copy())
-        self.instance_id = wml_vcap["instance_id"]
-        self.url = wml_vcap["url"]
         self.deployment_list = self.client.deployments.get_details()['resources']
 
         self.transaction_id = 'transaction-id-' + uuid.uuid4().hex
-        print("--> Transaction ID:", self.transaction_id)
+        self.logger.info("Transaction ID: {}".format(self.transaction_id))
 
-        self.area_action_deployment = ""
-        self.sentiment_deployment = ""
+        self.area_action_deployment_guid = ""
+        self.satisfaction_deployment_guid = ""
         self.area_action_scoring_url = ""
-        self.sentiment_scoring_url = ""
+        self.satisfaction_scoring_url = ""
     
-        self.get_sentiment_functions()
-        self.get_areaaction_functions()
-        self.update_scorings()
+        self.update_scoring_functions()
 
         self.neutral_templates = ["We’re sorry that you were unhappy with your experience with Cars4U. We will open a case to investigate the issue with <b>{} {}</b>. In the meantime, we’d like to offer you a <b>{}</b> on your next rental with us.",
                                   "We're very sorry for the trouble you experienced with Cars4U. We will open a case to investigate the issue with <b>{} {}</b>. In the meantime, we’d like to offer you a <b>{}</b> on your next rental with us.",
@@ -37,8 +39,8 @@ class WMLHelper:
                                    "We are glad to hear you had such a great experience! ",
                                    "We appreciate your positive review about your recent experience with us!"]
 
-    def score_model(self, request):
-        print("--> Preparing for scoring.")
+    def analyze_business_area(self, request):
+        self.logger.info("Scoring Area/Action AI function.")
         gender = request['gender']
         status = request['status']
         comment = request['comment']
@@ -53,20 +55,21 @@ class WMLHelper:
         values = [11, gender, status, childrens, age,
                     customer_status, car_owner, comment, int(satisfaction)]
 
-        print("--> Scoring Area/Action AI function.")
-        print("--> Scoring url: {} ".format(self.area_action_scoring_url))
+        self.logger.debug("Scoring url: {} ".format(self.area_action_scoring_url))
         payload_scoring = {"fields": fields, "values": [values]}
-        print("--> Payload scoring:\n{}".format(payload_scoring))
+        self.logger.debug("Payload scoring: {}".format(payload_scoring))
 
         scoring = self.client.deployments.score(self.area_action_scoring_url, payload_scoring, transaction_id=self.transaction_id)
-        print("--> Scoring result:\n{}".format(scoring))
+        self.logger.debug("Scoring result: {}".format(scoring))
+        
         action_index = scoring['fields'].index('Prediction_Action')
         action_value = scoring['values'][0][action_index]
 
         area_index = scoring['fields'].index('Prediction_Area')
         area_value = scoring['values'][0][area_index]
         
-        print("--> Area value: {}\n--> Action value: {}".format(area_value, action_value))
+        self.logger.debug("Predicted area value: {}".format(area_value))
+        self.logger.debug("Predicted action value: {}".format(action_value))
 
         client_response = ""
         if satisfaction == 0:
@@ -76,12 +79,12 @@ class WMLHelper:
             client_response = self.positive_templates[random.randint(
                 0, len(self.positive_templates)-1)]
         else:
-            print("--> Satisfaction field was not set properly.")
+            self.logger.error("Satisfaction field was not set properly.")
 
         return {"client_response": client_response, "action": action_value}
 
-    def analyze_sentiment(self, text):
-        print("--> Scoring Sentiment function.")
+    def analyze_satisfaction(self, text):
+        self.logger.info("Scoring Satisfaction function.")
 
         payload = {
             'fields': ['feedback'],
@@ -90,81 +93,69 @@ class WMLHelper:
             ]
         }
 
-        print("--> Scoring payload:\n{}".format(payload))
-        scoring = self.client.deployments.score(self.sentiment_scoring_url, payload, transaction_id=self.transaction_id)
-        print("--> Scoring result:\n{}".format(scoring))
+        self.logger.debug("Scoring payload: {}".format(payload))
+        self.logger.debug("Scoring url: {}".format(self.satisfaction_scoring_url))
+        scoring = self.client.deployments.score(self.satisfaction_scoring_url, payload, transaction_id=self.transaction_id)
+        self.logger.debug("Scoring result: {}".format(scoring))
 
         sentiment_index = scoring['fields'].index('prediction_classes')
         sentiment_value = scoring['values'][0][sentiment_index][0]
 
-        print("--> Predicted sentiment: {}".format(sentiment_value))
+        self.logger.debug("Predicted sentiment: {}".format(sentiment_value))
         return str(sentiment_value)
 
-    def get_sentiment_functions(self):
+    def get_function_deployments(self, keyword):
+        self.logger.info("Getting '{}' function deployments.".format(keyword))
         self.deployment_list = self.client.deployments.get_details()['resources']
-        sentiment_array = []
+        deployments_array = []
 
         for deployment in self.deployment_list:
             deployment_name = deployment['entity']['name']
-            if re.match(r'(.*)(sentiment|satisfaction)(.*)', deployment_name, re.IGNORECASE) and re.match(r'(.*)(function)(.*)', deployment_name, re.IGNORECASE):
-                sentiment_array.append({
+            if re.match(r'(.*)({})(.*)'.format(keyword), deployment_name, re.IGNORECASE) and re.match(r'(.*)(function)(.*)', deployment_name, re.IGNORECASE):
+                deployments_array.append({
                     "name": deployment['entity']['name'],
                     "guid": deployment['metadata']['guid']
                 })
-        if len(sentiment_array) == 0:
+        if len(deployments_array) == 0:
             for deployment in self.deployment_list:
-                sentiment_array.append({
+                deployments_array.append({
                     "name": deployment['entity']['name'],
                     "guid": deployment['metadata']['guid']
                 })
-
-        if len(sentiment_array) > 0:
-            self.sentiment_deployment = sentiment_array[0]['guid']
         
-        print(sentiment_array)
-        return sentiment_array
+        self.logger.debug(deployments_array)
+        return deployments_array
 
-    def get_areaaction_functions(self):
-        self.deployment_list = self.client.deployments.get_details()['resources']
-        area_action_array = []
+    def update_scoring_functions(self, deployments=None):
+        self.logger.info("Updating scoring functions.")
+        self.logger.debug("Saved deployments: {}".format(str(deployments)))
+        if deployments is None:
+            self.area_action_deployment_guid = self.get_function_deployments(keyword="area")[0]['guid']
+            self.satisfaction_deployment_guid = self.get_function_deployments(keyword="satisfaction")[0]['guid']
+        else:
+            self.area_action_deployment_guid = deployments["areaaction"]
+            self.satisfaction_deployment_guid = deployments["satisfaction"]
 
-        for deployment in self.deployment_list:
-            deployment_name = deployment['entity']['name']
-            if re.match(r'(.*)(area)(.*)', deployment_name, re.IGNORECASE) and re.match(r'(.*)(function)(.*)', deployment_name, re.IGNORECASE):
-                area_action_array.append({
-                    "name": deployment['entity']['name'],
-                    "guid": deployment['metadata']['guid']
-                })
-        if len(area_action_array) == 0:
-            for deployment in self.deployment_list:
-                area_action_array.append({
-                    "name": deployment['entity']['name'],
-                    "guid": deployment['metadata']['guid']
-                })
+        self.logger.debug("Area and action deployment guid: {}".format(self.area_action_deployment_guid))
+        self.logger.debug("Satisfaction deployment guid: {}".format(self.satisfaction_deployment_guid))
 
-        if len(area_action_array) > 0:
-            self.area_action_deployment = area_action_array[0]['guid']
-        
-        return area_action_array
-
-    def update_models(self, deployments):
-        print("---> Update models:\n{}".format(deployments))
-        self.area_action_deployment = deployments['areaaction']
-        self.sentiment_deployment = deployments['sentiment']
-
-    def update_scorings(self):
-        print("--> Deployments:\nArea/Action: {}\nSentiment: {}".format(self.area_action_deployment, self.sentiment_deployment))
+        self.area_action_scoring_url = "" 
+        self.satisfaction_scoring_url = ""
         
         for deployment in self.deployment_list:
-            if self.area_action_deployment == deployment['metadata']['guid']:
+            if self.area_action_deployment_guid == deployment['metadata']['guid']:
                 self.area_action_scoring_url = deployment['entity']['scoring_url']
-            elif self.sentiment_deployment == deployment['metadata']['guid']:
-                self.sentiment_scoring_url = deployment['entity']['scoring_url']
+            elif self.satisfaction_deployment_guid == deployment['metadata']['guid']:
+                self.satisfaction_scoring_url = deployment['entity']['scoring_url']
 
-        print("--> Scoring urls:\nArea/Action: {}\nSentiment: {}".format(self.area_action_scoring_url, self.sentiment_scoring_url))
+        self.logger.debug("Area/Action scoring url: {}".format(self.area_action_scoring_url))
+        self.logger.debug("Satisfaction scoring url {}".format(self.satisfaction_scoring_url))
 
-    def check_deployments(self):
-        if len(self.area_action_scoring_url) == 0 or len(self.sentiment_scoring_url) == 0:
-            return False
-        return True
+        if self.area_action_scoring_url == "" :
+            self.logger.error("Unable to get scoring url for deployment: {}".format(self.area_action_deployment_guid))
+            raise Exception("Unable to get scoring url for deployment: {}".format(self.area_action_deployment_guid))
+        if self.satisfaction_scoring_url == "":
+            self.logger.error("Unable to get scoring url for deployment: {}".format(self.satisfaction_deployment_guid))
+            raise Exception("Unable to get scoring url for deployment: {}".format(self.satisfaction_deployment_guid))
+
         
